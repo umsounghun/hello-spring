@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>oEmbed</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <link rel="stylesheet" href="/css/index.css" />
+  <body>
+    <div class="container">
+      <!-- 헤더 -->
+      <div th:replace="fragments/nav.html :: fragment-nav"></div>
+
+      <!-- 로그인/로그아웃 -->
+      <div th:if="${session.log == null}">
+        <a href="sign"><button>로그인</button></a>
+      </div>
+      <div th:if="${session.log == 'Y'}">
+        <span th:text="${session.logName}"></span>
+        <a href="logout"><button>로그아웃</button></a>
+      </div>
+
+      <div id="boardContainer">
+        <th:block th:if="${session.log == 'Y'}">
+          <a href="#" th:href="@{board }"><button>글쓰기</button></a>
+        </th:block>
+        <!-- 게시판 -->
+        <table>
+          <thead>
+            <tr>
+              <th>글번호</th>
+              <th>제목</th>
+              <th>작성자</th>
+              <th>작성일</th>
+              <th>조회</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="board : ${boardList}">
+              <td><span th:text="${board.no}"></span></td>
+              <td><a href="#" th:href="@{board/{no}(no=${board.no})}"><span th:text="${board.title}"></a></span></td>
+              <td><span th:text="${board.author}"></span></td>
+              <td><span th:text="${board.writedate}"></span></td>
+              <td><span th:text="${board.views}"></span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <script th:inline="javascript">
+        /*<![CDATA[*/
+        console.log(/*[[ ${boardList} ]]*/);
+        /*]]>*/
+      </script>
+    </div>
+  </body>
+</html>

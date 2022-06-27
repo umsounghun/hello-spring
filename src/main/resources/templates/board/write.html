@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <link rel="stylesheet" href="/css/write.css" />
+  <script type="text/javascript" src="/js/write.js"></script>
+  <body>
+    <!-- 헤더 -->
+    <div th:replace="fragments/nav.html :: fragment-nav"></div>
+    <div id="container">
+      <form method="POST" action="/board">
+        <div>제목</div>
+        <input type="text" size="100" id="title" name="title" />
+
+        <div>글내용</div>
+        <textarea rows="30" id="content" name="content"></textarea>
+        <div id="btnContainer">
+          <input type="submit" value="글등록" />
+          <input type="button" value="취소" onclick="cancel()" />
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

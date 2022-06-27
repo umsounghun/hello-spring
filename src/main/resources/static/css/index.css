@@ -1,0 +1,28 @@
+#boardContainer {
+  width: 1024px;
+  margin: 0 auto;
+}
+
+table {
+  width: 100%;
+}
+
+thead th {
+  height: 30px;
+  border-bottom: 1px solid black;
+  text-align: left;
+}
+
+tbody td {
+  width: 10%;
+  height: 30px;
+  line-height: 30px;
+}
+
+tbody td:nth-child(2n) {
+  width: 50%;
+}
+
+tbody td:nth-child(4n) {
+  width: 20%;
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <link rel="stylesheet" type="text/css" href="/css/view.css" />
+  <script type="text/javascript" src="/js/view.js"></script>
+  <body>
+    <!-- 헤더 -->
+    <div th:replace="fragments/nav.html :: fragment-nav"></div>
+
+    <div id="container">
+      <form method="get" action="/board/edit?no=${viewList.no}">
+        <input type="hidden" th:value="${viewList.no}" id="no" name="no" />
+        <div>작성자 <th:block th:text="${viewList.author}"></th:block></div>
+        <div>작성일 <th:block th:text="${viewList.writedate}"></th:block></div>
+        <div>제목 <th:block th:text="${viewList.title}"></th:block></div>
+        <div>글내용</div>
+        <div><th:block th:text="${viewList.content}"></th:block></div>
+        <div id="btnContainer">
+          <th:block th:if="${viewList.author == session.logName}">
+            <input type="submit" value="수정" />
+            <input type="button" value="삭제" onclick="boardDelete()" />
+          </th:block>
+          <input type="button" value="돌아가기" onclick="back()" />
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

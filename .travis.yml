@@ -1,0 +1,52 @@
+language: java
+jdk:
+- openjdk11
+branches:
+  only:
+  - master
+before_install:
+- openssl aes-256-cbc -K $encrypted_1116e8e6e492_key -iv $encrypted_1116e8e6e492_iv
+  -in application.yml.enc -out application.yml -d
+- chmod +x gradlew
+cache:
+  directories:
+  - "$HOME/.m2/repository"
+  - "$HOME/.gradle"
+before_script:
+- chmod +x gradlew
+script:
+- "./gradlew clean build"
+notifications:
+  email:
+    recipients:
+    -
+before_deploy:
+- zip -r springboot-webservice *
+- mkdir -p deploy
+- mv springboot-webservice.zip deploy/springboot-webservice.zip
+deploy:
+- provider: s3
+  access_key_id: "$AWS_ACCESS_KEY"
+  secret_access_key: "$AWS_SECRET_KEY"
+  bucket: springboot-deploy-bucket
+  region: ap-northeast-2
+  skip_cleanup: true
+  acl: public_read
+  wait-until-deployed: true
+  local_dir: deploy
+  on:
+    repo:
+    branch: master
+- provider: codedeploy
+  access_key_id: "$AWS_ACCESS_KEY"
+  secret_access_key: "$AWS_SECRET_KEY"
+  bucket: springboot-deploy-bucket
+  key: springboot-webservice.zip
+  bundle_type: zip
+  application: springboot-webservice
+  deployment_group: springboot-webservice-group
+  region: ap-northeast-2
+  wait-until-deployed: true
+  on:
+    repo:
+    branch: master
